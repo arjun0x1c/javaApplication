@@ -1,16 +1,14 @@
 package com.zs.application;
-import java.util.Date;
 
 public class Message {
-    private String sender, receiver, content;
+    private String sender, receiver, content, timestamp;
     private int id;
-    private Date timestamp;
     
-    public Message(String sender, String receiver,String content) {
+    public Message(String sender, String receiver, String timestamp, String content) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.timestamp = new Date();
+        this.timestamp = timestamp;
     }
 
     public int getId() {
@@ -44,16 +42,16 @@ public class Message {
         this.content = content;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
     
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
-        return "From: " + receiver + "\nTo: " + receiver + "\nSent at: " + timestamp + "\n" + content;
+        return "From: " + sender + "\n\tTo: " + receiver + "\n\tSent at: " + timestamp + "\n\t" + content;
     }
 }

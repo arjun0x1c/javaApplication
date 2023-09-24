@@ -9,10 +9,10 @@ public class LoginModule {
 
     public User login(String username, String password) {
         if (userDb.verifyUser(username, password)) {
-            System.out.println("[+] Login Successful. Welcome " + username + "!.");
+            System.out.println("\n\t\t[+] Login Successful. Welcome " + username + "!.");
             return userDb.getUserByName(username);
         } else {
-            System.out.println("[!] Invalid username or password. Please try again.");
+            System.out.println("\n\t\t[!] Invalid username or password. Please try again.");
             return null;
         }
     }
