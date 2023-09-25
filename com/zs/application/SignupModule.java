@@ -17,5 +17,12 @@ public class SignupModule {
             System.out.println("\n\t\t[+] Successfully Registered. You can now log in.");
         }
     }
+
+    public boolean checkUser(String username) {
+        if (userDb.getUserByName(username) != null) {
+            return true;
+        }
+        return false;
+    }
 }
 

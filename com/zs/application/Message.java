@@ -2,22 +2,31 @@ package com.zs.application;
 
 public class Message {
     private String sender, receiver, content, timestamp;
+    private static int nextId = 1;
     private int id;
+    boolean isRead;
     
-    public Message(String sender, String receiver, String timestamp, String content) {
+    public Message(String sender, String receiver, String timestamp, String content, boolean isRead) {
+        this.id = nextId++;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
         this.timestamp = timestamp;
+        this.isRead = isRead;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean isRead) {
+        this.isRead = isRead;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getSender() {
         return sender;
     }
@@ -52,6 +61,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "From: " + sender + "\n\tTo: " + receiver + "\n\tSent at: " + timestamp + "\n\t" + content;
+        return "Message Id: " + id + "\n\tFrom: " + sender + "\n\tTo: " + receiver + "\n\tSent at: " + timestamp + "\n\t" + content;
     }
 }

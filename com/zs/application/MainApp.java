@@ -39,6 +39,10 @@ public class MainApp {
                 case 1:
                     System.out.print("\n\t[+] Enter your username: ");
                     String signupUsername = sc.nextLine();
+                    if (signupModule.checkUser(signupUsername)) {
+                        System.out.println("\n\t\t[!] User already exist. Try another username.");
+                        break;
+                    }
                     System.out.print("\t[+] Enter your email: ");
                     String signupEmail = sc.nextLine();
                     String signupPassword = readPassword("[+] Enter your password: ");
@@ -84,6 +88,12 @@ public class MainApp {
 
     public static void handleLogedInUser(User user, MessageModule messageModule, Scanner sc, UserDatabase userDb) {
         boolean flag = true;
+        int unreadMessages = messageModule.getUnreadMessagesCount(user.getUsername());
+        
+        if (unreadMessages>0) {
+            System.out.println("\n\t\t[+] You have " + unreadMessages + " unread messages.");
+        }
+
         while (flag) {
             System.out.println("\n\n\t1. Send message.");
             System.out.println("\t2. view message.");
@@ -113,7 +123,7 @@ public class MainApp {
                     if (userDb.getUserByName(receiverName) == null) {
                         System.out.println("\n\t\t[!] User not Found.");
                         break;
-                    } else if (receiverName == user.getUsername()) {
+                    } else if (receiverName.equals(user.getUsername())) {
                         System.out.println("\n\t\t[!] Can't send message to same user.");
                         break;
                     }
@@ -123,7 +133,33 @@ public class MainApp {
                     messageModule.sendMessage(user.getUsername(), receiverName, messageContent);
                     break;
                 case 2:
-                    messageModule.getMessageForUser(user.getUsername());
+                    System.out.println("\n\t1. view unread messages.");
+                    System.out.println("\t2. view All messages.");
+                    System.out.println("\t0. Back.");
+                    System.out.print("\t[+] Enter option[0/1/2]: ");
+
+                    try {
+                        int n = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (n) {
+                            case 0:
+                                break;
+                            case 1:
+                                messageModule.getUnreadMessages(user.getUsername());
+                                break;
+                            case 2:
+                                messageModule.getMessageForUser(user.getUsername());
+                                break;
+                            default:
+                                System.out.println("\n\t\t[!] Wrong option. Back to main menu.");
+                                break;
+                        }
+                    } catch (Exception e) {
+                        sc.nextLine();
+                        System.out.println("\n\t\t[!] Please give numbers only.");
+                    }
+
                     break;
                 case 3:
                     ArrayList<User> users = userDb.getUser();
@@ -135,7 +171,7 @@ public class MainApp {
                 case 4:
                     ArrayList<Message> messages = messageModule.getMessageForUser(user.getUsername());
                     if (!messages.isEmpty()) {
-                        System.out.print("\n\tEnter no.of message to delete\n\t(or)\n\tEnter 0 to delete all messages\\-1 to cancel: ");
+                        System.out.print("\n\tEnter the message id to delete\n\t\t(or)\n\tEnter 0 to delete all messages\n\t\t(or)\n\tEnter -1 to Back main menu.\n\t[+] Enter option: ");
                     } else {
                         break;
                     }
@@ -144,14 +180,14 @@ public class MainApp {
                         int n = sc.nextInt();
                         sc.nextLine();
                         if (n == -1) {
-                            System.out.println("\n\t\t[+] cancelled.");
+                            System.out.println("\n\t\t[+] Back to main menu...");
                             break;
                         } else if (n == 0) {
                             messageModule.deleteAll();
                         } else {
-                            for (int i = 0; i < messages.size(); i++) {
-                                if (i == n - 1 && n > 0) {
-                                    messageModule.deleteMessage(messages.get(i));
+                            for (Message message: messages) {
+                                if (message.getId() == n) {
+                                    messageModule.deleteMessage(message);
                                 }
                             }
                         }

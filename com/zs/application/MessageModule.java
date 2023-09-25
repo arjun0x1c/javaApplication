@@ -13,8 +13,9 @@ public class MessageModule {
     public void sendMessage(String sender, String receiver, String content) {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH.mm.ss");
-        messageDb.sendMessage(new Message(sender, receiver, formatter.format(date), content));
+        messageDb.sendMessage(new Message(sender, receiver, formatter.format(date), content, false));
         System.out.println("\n\t\t[+] Message sent successfully");
+        messageDb.updateDatabase();
     }
 
     public ArrayList<Message> getMessageForUser(String username) {
@@ -29,12 +30,33 @@ public class MessageModule {
                 System.out.println("\t--------------------");
             }
         }
+        messageDb.updateDatabase();
         return messages;
     }
+
+    public void getUnreadMessages(String username) {
+        ArrayList<Message> messages = messageDb.getUnreadMessages(username);
+
+        if (messages.isEmpty()) {
+            System.out.println("\n\t\t[!] No unread Messages for " + username);
+        } else {
+            System.out.println("\n\tUnread Messages for "+ username + ":\n");
+            for (Message message: messages) {
+                System.out.println("\t" + message.toString());
+                System.out.println("\t--------------------");
+            }
+        }
+        messageDb.updateDatabase();
+    }
+
+    public int getUnreadMessagesCount(String username) {
+        return messageDb.getUnreadMessagesCount(username);
+    } 
 
     public void deleteMessage(Message message) {
         messageDb.deleteMessage(message);
         System.out.println("\n\t\t[+] Message deleted successfully");
+        messageDb.updateDatabase();
     }
 
     public void deleteAll() {
@@ -42,4 +64,3 @@ public class MessageModule {
         System.out.println("\n\t\t[+] Deleted all messages.");
     }
 }
-
