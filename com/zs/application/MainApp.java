@@ -15,11 +15,11 @@ public class MainApp {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n\n\tWelcome to the app");
+            System.out.println("\n\n\t" + ConsoleColors.YELLOW +"Welcome to the app");
             System.out.println("\t1. Signup.");
             System.out.println("\t2. Log in");
             System.out.println("\t0. Exit");
-            System.out.print("\n\tEnter your choice: ");
+            System.out.print("\n\tEnter your choice[0/1/2]: " + ConsoleColors.GREEN);
 
             int choice;
             try {
@@ -27,48 +27,48 @@ public class MainApp {
                 sc.nextLine();
             } catch (Exception e) {
                 sc.nextLine();
-                System.out.println("\n\t\tPlease give numbers only.");
+                System.out.println(ConsoleColors.RED + "\n\t\tPlease give numbers only." + ConsoleColors.RESET);
                 continue;
             }
 
             switch (choice) {
                 case 0:
-                    System.out.println("\n\t\tGood Bye!!");
+                    System.out.println(ConsoleColors.GREEN + "\n\t\tGood Bye!!" + ConsoleColors.RESET);
                     sc.close();
                     System.exit(0);
                 case 1:
-                    System.out.print("\n\t[+] Enter your username: ");
+                    System.out.print("\n\t" + ConsoleColors.YELLOW + "[+] Enter your username: " + ConsoleColors.GREEN);
                     String signupUsername = sc.nextLine();
                     if (signupModule.checkUser(signupUsername)) {
-                        System.out.println("\n\t\t[!] User already exist. Try another username.");
+                        System.out.println("\n\t\t" + ConsoleColors.RED + "[!] User already exist. Try another username." + ConsoleColors.RESET);
                         break;
                     }
-                    System.out.print("\t[+] Enter your email: ");
+                    System.out.print(ConsoleColors.YELLOW + "\t[+] Enter your email: " + ConsoleColors.GREEN);
                     String signupEmail = sc.nextLine();
-                    String signupPassword = readPassword("[+] Enter your password: ");
+                    String signupPassword = readPassword(ConsoleColors.YELLOW + "[+] Enter your password: ");
                     PasswordStrengthChecker pc = new PasswordStrengthChecker();
                     pc.setPassword(signupPassword);
                     if (!pc.identifyPasswordStrength()) {
                         break;
                     }
-                    String confirmPassword = readPassword("[+] Confirm Password: ");
+                    String confirmPassword = readPassword(ConsoleColors.YELLOW + "[+] Confirm Password: ");
                     if (!signupPassword.equals(confirmPassword)) {
-                        System.out.println("\n\t\t[!] Password Not matched.");
+                        System.out.println(ConsoleColors.RED + "\n\t\t[!] Password Not matched." + ConsoleColors.RESET);
                         break;
                     }
                     signupModule.registerUser(signupUsername, signupPassword, signupEmail);
                     break;
                 case 2:
-                    System.out.print("\n\t[+] Enter your username: ");
+                    System.out.print(ConsoleColors.YELLOW + "\n\t[+] Enter your username: " + ConsoleColors.GREEN);
                     String loginUsername = sc.nextLine();
-                    String loginPassword = readPassword("[+] Enter your password: ");
+                    String loginPassword = readPassword(ConsoleColors.YELLOW + "[+] Enter your password: ");
                     User loggedInUser = loginModule.login(loginUsername, loginPassword);
                     if (loggedInUser != null) {
                         handleLogedInUser(loggedInUser, messageModule, sc, userDb);
                     }
                     break;
                 default:
-                    System.out.println("\n\t\t[!] Invalid choice. Please try again.");
+                    System.out.println(ConsoleColors.RED + "\n\t\t[!] Invalid choice. Please try again." + ConsoleColors.RESET);
                     break;
             }
         }
@@ -79,7 +79,7 @@ public class MainApp {
 
         String result = "";
         if (console == null) {
-            System.out.println("\n\t\t[!] Can't open a console.");
+            System.out.println(ConsoleColors.RED + "\n\t\t[!] Can't open a console." + ConsoleColors.RESET);
         } else {
             result = String.valueOf(console.readPassword("\t" + message));
         }
@@ -91,16 +91,16 @@ public class MainApp {
         int unreadMessages = messageModule.getUnreadMessagesCount(user.getUsername());
         
         if (unreadMessages>0) {
-            System.out.println("\n\t\t[+] You have " + unreadMessages + " unread messages.");
+            System.out.println(ConsoleColors.BLUE + "\n\t\t[+] You have " + unreadMessages + " unread messages." + ConsoleColors.RESET);
         }
 
         while (flag) {
-            System.out.println("\n\n\t1. Send message.");
+            System.out.println(ConsoleColors.YELLOW + "\n\n\t1. Send message.");
             System.out.println("\t2. view message.");
             System.out.println("\t3. view users.");
             System.out.println("\t4. Delete messages.");
             System.out.println("\t0. Logout.");
-            System.out.print("\n\tEnter your choice: ");
+            System.out.print("\n\tEnter your choice: " + ConsoleColors.GREEN);
 
             int ch;
             try {
@@ -108,35 +108,35 @@ public class MainApp {
                 sc.nextLine();
             } catch (Exception e) {
                 sc.nextLine();
-                System.out.println("\n\t\tPlease give numbers only.");
+                System.out.println(ConsoleColors.RED + "\n\t\tPlease give numbers only." + ConsoleColors.RESET);
                 continue;
             }
 
             switch (ch) {
                 case 0:
-                    System.out.println("\n\t\tSuccessfully Logged out.");
+                    System.out.println(ConsoleColors.GREEN + "\n\t\tSuccessfully Logged out." + ConsoleColors.RESET);
                     flag = false;
                     break;
                 case 1:
-                    System.out.print("\n\tTo: ");
+                    System.out.print(ConsoleColors.YELLOW + "\n\tTo: " + ConsoleColors.GREEN);
                     String receiverName = sc.nextLine();
                     if (userDb.getUserByName(receiverName) == null) {
-                        System.out.println("\n\t\t[!] User not Found.");
+                        System.out.println(ConsoleColors.RED + "\n\t\t[!] User not Found." + ConsoleColors.RESET);
                         break;
                     } else if (receiverName.equals(user.getUsername())) {
-                        System.out.println("\n\t\t[!] Can't send message to same user.");
+                        System.out.println(ConsoleColors.RED + "\n\t\t[!] Can't send message to same user." + ConsoleColors.RESET);
                         break;
                     }
-                    System.out.print("\tContent: ");
+                    System.out.print(ConsoleColors.YELLOW + "\tContent: " + ConsoleColors.GREEN);
                     String messageContent = sc.nextLine();
 
                     messageModule.sendMessage(user.getUsername(), receiverName, messageContent);
                     break;
                 case 2:
-                    System.out.println("\n\t1. view unread messages.");
+                    System.out.println(ConsoleColors.YELLOW + "\n\t1. view unread messages.");
                     System.out.println("\t2. view All messages.");
                     System.out.println("\t0. Back.");
-                    System.out.print("\t[+] Enter option[0/1/2]: ");
+                    System.out.print("\t[+] Enter option[0/1/2]: " + ConsoleColors.GREEN);
 
                     try {
                         int n = sc.nextInt();
@@ -152,26 +152,26 @@ public class MainApp {
                                 messageModule.getMessageForUser(user.getUsername());
                                 break;
                             default:
-                                System.out.println("\n\t\t[!] Wrong option. Back to main menu.");
+                                System.out.println(ConsoleColors.RED + "\n\t\t[!] Wrong option. Back to main menu." + ConsoleColors.RESET);
                                 break;
                         }
                     } catch (Exception e) {
                         sc.nextLine();
-                        System.out.println("\n\t\t[!] Please give numbers only.");
+                        System.out.println(ConsoleColors.RED + "\n\t\t[!] Please give numbers only." + ConsoleColors.RESET);
                     }
 
                     break;
                 case 3:
                     ArrayList<User> users = userDb.getUser();
-                    System.out.println("\n\tRegisterd users.");
+                    System.out.println(ConsoleColors.BLUE + "\n\tRegisterd users.");
                     for (User registeredUser : users) {
-                        System.out.println("\t" + registeredUser.getUsername());
+                        System.out.println(ConsoleColors.GREEN + "\t" + registeredUser.getUsername() + ConsoleColors.RESET);
                     }
                     break;
                 case 4:
                     ArrayList<Message> messages = messageModule.getMessageForUser(user.getUsername());
                     if (!messages.isEmpty()) {
-                        System.out.print("\n\tEnter the message id to delete\n\t\t(or)\n\tEnter 0 to delete all messages\n\t\t(or)\n\tEnter -1 to Back main menu.\n\t[+] Enter option: ");
+                        System.out.print(ConsoleColors.YELLOW + "\n\tEnter the message id to delete\n\t\t(or)\n\tEnter 0 to delete all messages\n\t\t(or)\n\tEnter -1 to Back main menu.\n\t[+] Enter option: " + ConsoleColors.GREEN);
                     } else {
                         break;
                     }
@@ -180,7 +180,7 @@ public class MainApp {
                         int n = sc.nextInt();
                         sc.nextLine();
                         if (n == -1) {
-                            System.out.println("\n\t\t[+] Back to main menu...");
+                            System.out.println(ConsoleColors.BLUE + "\n\t\t[+] Back to main menu..." + ConsoleColors.RESET);
                             break;
                         } else if (n == 0) {
                             messageModule.deleteAll();
@@ -193,11 +193,11 @@ public class MainApp {
                         }
                     } catch (Exception e) {
                         sc.nextLine();
-                        System.out.println("\n\t\tPlease enter numbers only");
+                        System.out.println(ConsoleColors.RED + "\n\t\tPlease enter numbers only" + ConsoleColors.RESET);
                     }
                     break;
                 default:
-                    System.out.println("\n\t\tWrong choice. Please try again.");
+                    System.out.println(ConsoleColors.RED + "\n\t\tWrong choice. Please try again." + ConsoleColors.RESET);
                     break;
             }
         }

@@ -61,6 +61,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message Id: " + id + "\n\tFrom: " + sender + "\n\tTo: " + receiver + "\n\tSent at: " + timestamp + "\n\t" + content;
+        return "Message Id: " + ConsoleColors.WHITE + id + ConsoleColors.GREEN + "\n\tFrom: " + ConsoleColors.WHITE + sender + ConsoleColors.GREEN + "\n\tTo: " + ConsoleColors.WHITE + receiver + ConsoleColors.GREEN +"\n\tSent at: " + ConsoleColors.WHITE + timestamp + ConsoleColors.GREEN + "\n\t" + ConsoleColors.WHITE + content;
     }
 }

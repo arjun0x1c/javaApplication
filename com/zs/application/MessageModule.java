@@ -14,7 +14,7 @@ public class MessageModule {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy HH.mm.ss");
         messageDb.sendMessage(new Message(sender, receiver, formatter.format(date), content, false));
-        System.out.println("\n\t\t[+] Message sent successfully");
+        System.out.println(ConsoleColors.GREEN + "\n\t\t[+] Message sent successfully" + ConsoleColors.RESET);
         messageDb.updateDatabase();
     }
 
@@ -22,11 +22,11 @@ public class MessageModule {
         ArrayList<Message> messages = messageDb.getMessageForUser(username);
 
         if (messages.isEmpty()) {
-            System.out.println("\n\t\t[!] No messages found for " + username);
+            System.out.println(ConsoleColors.RED + "\n\t\t[!] No messages found for " + username + ConsoleColors.RESET);
         } else {
-            System.out.println("\n\tMessages for " + username + ":\n");
+            System.out.println(ConsoleColors.BLUE + "\n\tMessages for " + username + ":\n");
             for (Message message: messages) {
-                System.out.println("\t" + message.toString());
+                System.out.println(ConsoleColors.GREEN + "\t" + message.toString() + ConsoleColors.RESET);
                 System.out.println("\t--------------------");
             }
         }
@@ -38,11 +38,11 @@ public class MessageModule {
         ArrayList<Message> messages = messageDb.getUnreadMessages(username);
 
         if (messages.isEmpty()) {
-            System.out.println("\n\t\t[!] No unread Messages for " + username);
+            System.out.println(ConsoleColors.RED + "\n\t\t[!] No unread Messages for " + username + ConsoleColors.RESET);
         } else {
-            System.out.println("\n\tUnread Messages for "+ username + ":\n");
+            System.out.println(ConsoleColors.BLUE + "\n\tUnread Messages for "+ username + ":\n");
             for (Message message: messages) {
-                System.out.println("\t" + message.toString());
+                System.out.println(ConsoleColors.GREEN + "\t" + message.toString() + ConsoleColors.RESET);
                 System.out.println("\t--------------------");
             }
         }
@@ -55,12 +55,12 @@ public class MessageModule {
 
     public void deleteMessage(Message message) {
         messageDb.deleteMessage(message);
-        System.out.println("\n\t\t[+] Message deleted successfully");
+        System.out.println(ConsoleColors.GREEN+ "\n\t\t[+] Message deleted successfully" + ConsoleColors.RESET);
         messageDb.updateDatabase();
     }
 
     public void deleteAll() {
         messageDb.deleteAll();
-        System.out.println("\n\t\t[+] Deleted all messages.");
+        System.out.println(ConsoleColors.GREEN + "\n\t\t[+] Deleted all messages." + ConsoleColors.RESET);
     }
 }

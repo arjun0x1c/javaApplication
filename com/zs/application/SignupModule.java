@@ -10,11 +10,11 @@ public class SignupModule {
 
     public void registerUser(String username, String password, String email) {
         if (userDb.getUserByName(username) != null) {
-            System.out.println("\n\t\t[+] Username alredy exists. Please choose a different username.");
+            System.out.println(ConsoleColors.RED + "\n\t\t[+] Username alredy exists. Please choose a different username." + ConsoleColors.RESET);
         } else {
             User newUser = new User(username, password, email);
             userDb.addUser(newUser);
-            System.out.println("\n\t\t[+] Successfully Registered. You can now log in.");
+            System.out.println(ConsoleColors.GREEN + "\n\t\t[+] Successfully Registered. You can now log in." + ConsoleColors.RESET);
         }
     }
 

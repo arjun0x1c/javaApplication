@@ -53,18 +53,18 @@ public class PasswordStrengthChecker{
             return true;
         }
         else {
-            System.out.println("\n\t\t[!] Your password is not strong.\n");
+            System.out.println(ConsoleColors.RED + "\n\t\t[!] Your password is not strong.\n" + ConsoleColors.RESET);
             if(!isValidLength()){
-                System.out.println("\t\t* Password must be more than 8 chars");
+                System.out.println(ConsoleColors.RED + "\t\t* Password must be more than 8 chars" + ConsoleColors.RESET);
             }
             if(!hasSpecialChar()){
-                System.out.println("\t\t* Password must contain one speacial char");
+                System.out.println(ConsoleColors.RED + "\t\t* Password must contain one speacial char" + ConsoleColors.RESET);
             }
             if(!isDigitPresence()){
-                System.out.println("\t\t* Password must have a one digit");
+                System.out.println(ConsoleColors.RED + "\t\t* Password must have a one digit" + ConsoleColors.RESET);
             }
             if(!isCaps()){
-                System.out.println("\t\t* Password must have one uppercase");
+                System.out.println(ConsoleColors.RED + "\t\t* Password must have one uppercase" + ConsoleColors.RESET);
             }
             return false;
         }
